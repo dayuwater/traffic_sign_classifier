@@ -72,6 +72,21 @@ def add_fake_image(index, label_index_dict):
     img_new = np.array([x + (random.random() - 0.5) / 10 for x in img])
     return img_new
 ```
+In order to make sure the amount of images in training set, validation set and test set is about the same ratio before augmentation, I also added faked data to validation set and test set as well. I first tried to balance cases as I did to training set, but the result is not ideal. Then I just doubled the amount of images of each class, and the results is good.
+
+```python
+#augment the validation set
+X_valid_aug = [x for x in X_valid]
+y_valid_aug = [y for y in y_valid]
+
+for y in y_valid:
+    X_valid_aug.append(add_fake_image(y, label_index_dict))
+    y_valid_aug.append(y)
+    
+X_valid_augmented = X_valid_aug
+y_valid_augmented = y_valid_aug
+```
+
 
 Then I decided to convert the images to grayscale because the images in different classes mostly differs in the shape and not clearly differs in color. If we just consider these 43 classes of German Traffic Signs, grayscale is better because this simplifies the model and reduces the chance of overfitting. 
 
