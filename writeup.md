@@ -150,7 +150,7 @@ Here are five cropped German traffic signs that comes from web
 
 ![alt text][image4] 
 
-This one is hard to classify because the snowflake has a pretty complicated structure, which is more complicated than the most complicated English letter.
+This one is hard to classify because the snowflake has a pretty complicated structure, which is more complicated than the most complicated English letter. In addition, the watermark provides a confusion.
 
 ![alt text][image5] 
 
@@ -235,7 +235,7 @@ Image2
 - Right-of-way at the next intersection : 0.0006162330391816795
 - Children crossing : 0.00023770863481331617
 
-Although the model classified this correctly, it does not classify it in a high certainty (0.69). Perhaps the structure of snowflakes are too complicated to the model.
+Although the model classified this correctly, it does not classify it in a high certainty (0.69). Perhaps the structure of snowflakes are too complicated to the model. Perhaps another image without the watermark will be helpful. Glad to know this because this shows that this model is still useful if the traffic sign is covered with advertisements
 
 Image3
 - General caution : 0.9621177911758423
