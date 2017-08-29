@@ -19,14 +19,14 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./examples/visualization.jpg "Visualization"
-[image2]: ./examples/grayscale.jpg "Grayscaling"
-[image3]: ./examples/random_noise.jpg "Random Noise"
-[image4]: ./examples/placeholder.png "Traffic Sign 1"
-[image5]: ./examples/placeholder.png "Traffic Sign 2"
-[image6]: ./examples/placeholder.png "Traffic Sign 3"
-[image7]: ./examples/placeholder.png "Traffic Sign 4"
-[image8]: ./examples/placeholder.png "Traffic Sign 5"
+[image1]: ./visualizations/training_set.png "Original Training Set"
+[image2]: ./visualizations/augmented_set.png "Augmenting and Grayscaling"
+
+[image4]: ./german_traffic_signs/cropped/test1.jpg "Traffic Sign 1"
+[image5]: ./german_traffic_signs/cropped/test2.jpg "Traffic Sign 2"
+[image6]: ./german_traffic_signs/cropped/test3.jpg "Traffic Sign 3"
+[image7]: ./german_traffic_signs/cropped/test4.jpg "Traffic Sign 4"
+[image8]: ./german_traffic_signs/cropped/test5.jpg "Traffic Sign 5"
 
 ## Rubric Points
 ### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.  
@@ -90,6 +90,8 @@ y_valid_augmented = y_valid_aug
 
 Then I decided to convert the images to grayscale because the images in different classes mostly differs in the shape and not clearly differs in color. If we just consider these 43 classes of German Traffic Signs, grayscale is better because this simplifies the model and reduces the chance of overfitting. 
 
+![alt text][image2]
+
 
 As a last step, I normalized the image data because this makes the model in zero mean and unit variance, which is better for the training stage. In addition, images might be stored in different color space and value, this makes sure the image data are unified from all sources, which makes it possible to predict outside images and actually used in production.
 
@@ -125,9 +127,9 @@ To train the model, I used an Adam Optimizer with a learning rate of 0.001. In a
 #### 4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
 
 My final model results were:
-* training set accuracy of ? 
+* training set accuracy of ? 0.998
 * validation set accuracy of ? 0.970
-* test set accuracy of ? 0.955
+* test set accuracy of ? 0.958
 
 
 If a well known architecture was chosen:
@@ -142,90 +144,127 @@ Because the validation accuracy is basically increasing for each epoch, and it r
 
 #### 1. Choose five German traffic signs found on the web and provide them in the report. For each image, discuss what quality or qualities might be difficult to classify.
 
-In order to fully evaluate this classifier, I prepared three sets of images containing different levels of complexity, each set has 5 images
 
-Here are five German traffic signs that comes from Wikipedia, which is in pure white background
-
-![alt text][image4] ![alt text][image5] ![alt text][image6] 
-![alt text][image7] ![alt text][image8]
 
 Here are five cropped German traffic signs that comes from web
 
-![alt text][image4] ![alt text][image5] ![alt text][image6] 
-![alt text][image7] ![alt text][image8]
+![alt text][image4] 
 
-Here are five original German traffic signs that comes from web
+This one is hard to classify because the snowflake has a pretty complicated structure, which is more complicated than the most complicated English letter.
 
-![alt text][image4] ![alt text][image5] ![alt text][image6] 
-![alt text][image7] ![alt text][image8]
+![alt text][image5] 
 
-Among the three datasets, the last dataset is the hardest to classify because it contains way too much of irrelevant data. Actually, I am not expecting this classifier to classify anything correctly.
+This one is hard to classify because there are two separate structure, "7" and "0". And there are a lot of similar signs belongs to other classes, like other speed limit signs.
 
-For the other two datasets, the images that contains multiple units of symbols are harder to classify than that contains only 1 unit of symbol. Because LeNet was trained on images that only contain 1 English letter, if the image provided has only 1 unit of symbol, like a single snowflake or a left arrow, it can be classified correctly. However, if the image has multiple units of symbols, like speed limit (70 km/h), there are two pieces of information, "7" and "0", this might confuse the classifier because LeNet was not originally designed to work on this case.
+![alt text][image6] 
+
+Same reason as the above one. In addition, this one is even harder because the image is not in direct front (orthogonal) view.
+
+
+![alt text][image7] 
+
+This is the easiest because the structure is the simpilest and it is in orthogonal view, but it might be confused with other directional signs.
+
+
+![alt text][image8]
+
+This one is hard because there are 4 letters there, but this one can be easier because of the unique octagonal shape.
+
+
 
 #### 2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
 
 Here are the results of the prediction:
 
-Wikipedia set:
 
 | Image			        |     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
 | Stop Sign      		| Stop sign   									| 
-| U-turn     			| U-turn 										|
-| Yield					| Yield											|
-| 100 km/h	      		| Bumpy Road					 				|
-| Slippery Road			| Slippery Road      							|
+| Beware of ice/snow     			| Beware of ice/snow 										|
+| **Speed limit (70km/h)**					| **General caution**										|
+| Keep right	      		| Keep right					 				|
+| Speed limit (30km/h)		| Speed limit (30km/h)      							|
 
-The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of ...
-
-Cropped set:
-
-| Image			        |     Prediction	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| Stop Sign      		| Stop sign   									| 
-| U-turn     			| U-turn 										|
-| Yield					| Yield											|
-| 100 km/h	      		| Bumpy Road					 				|
-| Slippery Road			| Slippery Road      							|
-
-The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of ...
+The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares less favorably to the accuracy on the test set of 95.8%. 
 
 
-Original Set:
-
-| Image			        |     Prediction	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| Stop Sign      		| Stop sign   									| 
-| U-turn     			| U-turn 										|
-| Yield					| Yield											|
-| 100 km/h	      		| Bumpy Road					 				|
-| Slippery Road			| Slippery Road      							|
-
-
-The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of ...
 
 #### 3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
 
-The code for making predictions on my final model is located in the 11th cell of the Ipython notebook.
+The code for making predictions is here. Because the image might have different size, it is required to resize the image first, which is different to the training pipeline:
 
-Because the classifier completely fails the Original Set, the softmax is not meaningful at all, I would not discuss that in this section. In fact, it might not be even possible to throw a whole image into the classifier without cropping.
+```python
+def predict_images(images, labels, need_resize = False):
+    # Preprocessing
+    if need_resize:
+        resized_images = [np.asarray(i.resize((32,32))) for i in images]
+    else:
+        resized_images = images
+    #print(resized_images)
+    # Normalize the images
+    normalized_images = np.array([(np.int8(x - 128)) / 128 for x in resized_images])
 
-For the first image, the model is relatively sure that this is a stop sign (probability of 0.6), and the image does contain a stop sign. The top five soft max probabilities were
+    # Grayscale the images
+    grayscaled_images = np.array([rgb2gray(img) for img in normalized_images]).reshape(-1,32,32,1)
 
-| Probability         	|     Prediction	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| .60         			| Stop sign   									| 
-| .20     				| U-turn 										|
-| .05					| Yield											|
-| .04	      			| Bumpy Road					 				|
-| .01				    | Slippery Road      							|
+    with tf.Session() as sess:
+        saver.restore(sess, tf.train.latest_checkpoint('.'))
+        result = sess.run(prediction, feed_dict={x: grayscaled_images})
+        performance = sess.run(accuracy_operation, feed_dict={x: grayscaled_images, y:labels})
+        print("accuracy : {}".format(performance))
+        for i, (img_prediction, probs) in enumerate(zip(result.indices, result.values)):
+            print("Image" + str(i + 1))
+            for pre, prob in zip(img_prediction, probs):
+                print("{} : {}".format(sign_dict[str(pre)], prob))
+
+            print("")
+```
+
+accuracy : 0.800000011920929
+Image1
+- Stop : 0.9998304843902588
+- Speed limit (20km/h) : 0.0001059826827258803
+- Ahead only : 1.8793405615724623e-05
+- Go straight or right : 1.5837895261938684e-05
+- Turn left ahead : 9.330876309832092e-06
+
+Image2
+- Beware of ice/snow : 0.6881868243217468
+- Slippery road : 0.2852127254009247
+- Turn left ahead : 0.02563401684165001
+- Right-of-way at the next intersection : 0.0006162330391816795
+- Children crossing : 0.00023770863481331617
+
+Although the model classified this correctly, it does not classify it in a high certainty (0.69). Perhaps the structure of snowflakes are too complicated to the model.
+
+Image3
+- General caution : 0.9621177911758423
+- Speed limit (30km/h) : 0.03750504553318024
+- Speed limit (80km/h) : 0.0003245206316933036
+- Speed limit (20km/h) : 3.687440403155051e-05
+- **Speed limit (70km/h) : 8.997902114060707e-06**
+
+The model classifies this wrong, but the correct answer is in the top 5. I believe the reason is that "70" forms a triangle between the two digits.
 
 
-For the second image ... 
+Image4
+- Keep right : 1.0
+- Slippery road : 1.7370280561146423e-11
+- Bicycles crossing : 1.5949192921221877e-12
+- Wild animals crossing : 1.2308818244169406e-12
+- Turn left ahead : 1.0375560515365979e-17
 
-### (Optional) Visualizing the Neural Network (See Step 4 of the Ipython notebook for more details)
-####1. Discuss the visual output of your trained network's feature maps. What characteristics did the neural network use to make classifications?
+Image5
+- Speed limit (30km/h) : 0.9999996423721313
+- End of speed limit (80km/h) : 3.801768002631434e-07
+- Speed limit (80km/h) : 7.591866690859206e-09
+- Speed limit (20km/h) : 1.0287495300076444e-09
+- Stop : 3.80059135204891e-12
+
+
+
+
+
 
 ### Image Sources:
 https://goo.gl/images/uWHdPS
